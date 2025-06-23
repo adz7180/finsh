@@ -1,31 +1,9 @@
 {
-  "name": "hexanest",
-  "version": "1.0.0",
-  "description": "HexaNest: Ultra-realistic home customization platform",
+  "engines": {
+    "node": "16.x" // Vue 2's last supported version
+  },
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build --modern",
-    "lint": "vue-cli-service lint",
-    "vercel-build": "npm run build"
-  },
-  "dependencies": {
-    "vue": "^2.6.14",
-    "vue-router": "^3.5.3",
-    "vuex": "^3.6.2",
-    "core-js": "^3.6.5",
-    "regenerator-runtime": "^0.13.7",
-    "axios": "^0.21.1",
-    "three": "^0.155.0",
-    "bootstrap": "^5.3.0"
-  },
-  "devDependencies": {
-    "@vue/cli-service": "^4.5.0",
-    "sass": "^1.69.0",
-    "sass-loader": "^10.1.1"
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ]
+    "build": "vue-cli-service build --modern --no-module",
+    "vercel-build": "npm install && npm run build"
+  }
 }
