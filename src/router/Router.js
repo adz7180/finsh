@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-
+import Customization from '@/views/Customization.vue';
+import Home from '@/views/Home.vue';
 import ExplorePreview from '../views/explorepreview.vue';
 import SubscriptionPlans from '../views/subscriptionplans.vue';
 import SceneViewer from '../components/sceneviewer.vue';
@@ -12,7 +13,9 @@ import PaymentScreen from '../components/paymentscreen.vue';
 Vue.use(Router);
 
 const routes = [
-  { path: '/', name: 'ExplorePreview', component: ExplorePreview },
+  { path: '/', name: 'Home', component: Home },
+  { path: '/customize', name: 'Customization', component: Customization },
+  { path: '/preview', name: 'ExplorePreview', component: ExplorePreview },
   { path: '/subscribe', name: 'SubscriptionPlans', component: SubscriptionPlans },
   { path: '/scene', name: 'SceneViewer', component: SceneViewer },
   { path: '/upload', name: 'FloorPlanUploader', component: FloorPlanUploader },
@@ -23,19 +26,11 @@ const routes = [
 
 const router = new Router({
   mode: 'history',
+  base: process.env.BASE_URL,
   routes,
   scrollBehavior() {
     return { x: 0, y: 0 };
   },
-});
-
-// Optional navigation guards (admin-only route protection)
-router.beforeEach((to, from, next) => {
-  const isAdmin = localStorage.getItem('userRole') === 'admin';
-  if (to.matched.some(record => record.meta.requiresAdmin)) {
-    if (!isAdmin) return next('/');
-  }
-  next();
 });
 
 export default router;
