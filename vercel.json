@@ -1,9 +1,26 @@
 {
   "build": {
     "command": "npm run build",
-    "output": "dist"
+    "output": "dist",
+    "nodeVersion": "18.x"
   },
   "devCommand": "npm run serve",
   "installCommand": "npm install --legacy-peer-deps",
-  "nodeVersion": "18.x"
+  "headers": [
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
 }
