@@ -1,14 +1,17 @@
 module.exports = {
   publicPath: '/',
-  transpileDependencies: true, // Fixes legacy deps
+  // Use an array of packages that need transpiling (or empty array if none)
+  transpileDependencies: [],
+
   chainWebpack: config => {
-    config.resolve.symlinks(false)
+    config.resolve.symlinks(false);
     config.plugin('html').tap(args => {
-      args[0].minify = false
-      args[0].inject = 'body'
-      return args
-    })
+      args[0].minify = false;
+      args[0].inject = 'body';
+      return args;
+    });
   },
+
   configureWebpack: {
     performance: {
       hints: false
