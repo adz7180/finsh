@@ -1,22 +1,54 @@
 <template>
   <div id="app">
-    <div class="watermark-logo">
-      <img src="@/assets/logo.png" alt="HexaNest Logo" />
+    <!-- Watermark Logo -->
+    <div v-if="logoExists" class="watermark-logo">
+      <img :src="logoPath" alt="HexaNest Logo" @error="handleLogoError" />
     </div>
+
+    <!-- Main Content -->
     <transition name="fade" mode="out-in">
-      <router-view />
+      <router-view v-if="routeLoaded" key="router-view" />
     </transition>
+
+    <!-- Fallback UI if something fails -->
+    <div v-if="!routeLoaded" class="fallback-ui">
+      Loading application...
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: 'App',
+  data() {
+    return {
+      logoExists: true,
+      routeLoaded: true
+    };
+  },
+  computed: {
+    logoPath() {
+      return require('@/assets/logo.png');
+    }
+  },
+  methods: {
+    handleLogoError() {
+      this.logoExists = false;
+      console.warn('Logo failed to load');
+    }
+  },
+  mounted() {
+    // Ensure app renders even if there are slow loads
+    setTimeout(() => {
+      this.routeLoaded = true;
+    }, 500);
+  }
 };
 </script>
 
 <style lang="scss">
-@use './assets/global.scss' as *;
+// Import global styles safely
+@import './assets/global.scss';
 
 #app {
   width: 100%;
@@ -28,10 +60,12 @@ export default {
 }
 
 // Smooth fade transitions between routes
-.fade-enter-active, .fade-leave-active {
+.fade-enter-active,
+.fade-leave-active {
   transition: opacity 0.6s ease;
 }
-.fade-enter, .fade-leave-to {
+.fade-enter,
+.fade-leave-to {
   opacity: 0;
 }
 
@@ -53,5 +87,14 @@ export default {
   0% { opacity: 0.5; }
   50% { opacity: 1; }
   100% { opacity: 0.5; }
+}
+
+.fallback-ui {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 1.2rem;
+  color: #555;
 }
 </style>
